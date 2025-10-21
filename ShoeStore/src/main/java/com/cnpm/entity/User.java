@@ -2,6 +2,7 @@ package com.cnpm.entity;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Users")
@@ -42,6 +43,12 @@ public class User {
     @Column(name = "avatar_url")
     private String avatarUrl;
     
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
+    @Column(name = "reset_token_expiry")
+    private LocalDateTime resetTokenExpiry;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
@@ -74,5 +81,9 @@ public class User {
     public void setAddress(String address) { this.address = address; }
     public String getAvatarUrl() { return avatarUrl; }
     public void setAvatarUrl(String avatarUrl) { this.avatarUrl = avatarUrl; }
+    public String getResetPasswordToken() { return resetPasswordToken; }
+    public void setResetPasswordToken(String resetPasswordToken) { this.resetPasswordToken = resetPasswordToken; }
+    public LocalDateTime getResetTokenExpiry() { return resetTokenExpiry; }
+    public void setResetTokenExpiry(LocalDateTime resetTokenExpiry) { this.resetTokenExpiry = resetTokenExpiry; }
     
 }

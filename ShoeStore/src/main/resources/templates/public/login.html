@@ -5,6 +5,9 @@
                 <h3 class="card-header text-center bg-primary text-white">Đăng nhập</h3>
                 <div class="card-body">
 
+                    <!-- Fragment chung hiển thị alert -->
+                    <div th:replace="~{fragments/alert :: alert}"></div>
+
                     <!-- Trường hợp đăng ký thành công qua URL param -->
                     <div th:if="${param.register == 'success'}" class="alert alert-success">
                         <span>Đăng ký tài khoản thành công! Vui lòng đăng nhập.</span>
@@ -40,6 +43,7 @@
                     </form>
 
                     <div class="text-center mt-3">
+                        <p class="mb-1"><a th:href="@{/forgot-password}">Quên mật khẩu?</a></p>
                         <p>Chưa có tài khoản? <a th:href="@{/register}">Đăng ký ngay</a></p>
                     </div>
 

@@ -11,6 +11,10 @@ public interface UserService {
     void deleteUser(Integer id);
     User saveRawUser(User user);
     Optional<User> findById(Integer id);
-    void updatePassword(User user, String newPassword); // Thêm phương thức này
+    void updatePassword(User user, String newPassword); 
     User saveNewUser(User user);
+    
+    User findByEmail(String email);
+    User findByResetPasswordToken(String token);
+    void createPasswordResetTokenForUser(User user, String token);
 }

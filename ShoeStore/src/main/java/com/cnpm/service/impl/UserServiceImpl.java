@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.time.LocalDateTime;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -74,6 +75,23 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         
         return userRepository.save(user);
+    }
+    
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+    public User findByResetPasswordToken(String token) {
+        return userRepository.findByResetPasswordToken(token).orElse(null);
+    }
+
+    @Override
+    public void createPasswordResetTokenForUser(User user, String token) {
+        user.setResetPasswordToken(token);
+        user.setResetTokenExpiry(LocalDateTime.now().plusHours(1)); // Token hết hạn sau 1 giờ
+        userRepository.save(user);
     }
 
 }

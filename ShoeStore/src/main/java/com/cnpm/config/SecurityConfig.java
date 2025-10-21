@@ -48,8 +48,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize -> authorize
+                // --- SỬA DÒNG NÀY ---
                 .requestMatchers("/", "/products/**", "/register", "/login", 
+                                 "/forgot-password", "/reset-password", // <-- THÊM 2 ĐƯỜNG DẪN NÀY
                                  "/css/**", "/js/**", "/images/**", "/api/**").permitAll()
+                // --- HẾT SỬA ---
                 .requestMatchers("/admin/**").hasAnyAuthority("manager", "staff")
                 .requestMatchers("/cart/**", "/orders/**").authenticated()
                 .anyRequest().authenticated()

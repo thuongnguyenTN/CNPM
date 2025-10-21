@@ -81,14 +81,13 @@ body {
 				class="col-md-3 col-lg-2 d-md-block sidebar collapse">
 				<div class="sidebar-sticky">
 					<ul class="nav flex-column">
-						<!-- Những mục cả manager và staff đều thấy -->
 						<li class="nav-item"
 							sec:authorize="hasAnyAuthority('manager','staff')"><a
 							class="nav-link" th:href="@{/admin/dashboard}"><i
 								class="bi bi-speedometer2"></i>Báo cáo</a></li>
 						<li class="nav-item"
 							sec:authorize="hasAnyAuthority('manager','staff')"><a
-							class="nav-link" th:href="@{/admin/products}"><i
+							class="nav-link active" th:href="@{/admin/products}"><i
 								class="bi bi-box-seam"></i>Sản phẩm</a></li>
 						<li class="nav-item"
 							sec:authorize="hasAnyAuthority('manager','staff')"><a
@@ -99,13 +98,11 @@ body {
 							class="nav-link" th:href="@{/admin/categories}"><i
 								class="bi bi-tags"></i>Danh mục</a></li>
 
-						<!-- Chỉ manager được xem và quản lý Người dùng -->
 						<li class="nav-item" sec:authorize="hasAuthority('manager')">
-							<a class="nav-link active" th:href="@{/admin/users}"><i
+							<a class="nav-link" th:href="@{/admin/users}"><i
 								class="bi bi-people"></i>Người dùng</a>
 						</li>
 
-						<!-- Coupon hiển thị cho manager và staff -->
 						<li class="nav-item"
 							sec:authorize="hasAnyAuthority('manager','staff')"><a
 							class="nav-link" th:href="@{/admin/coupons}"><i
@@ -135,7 +132,7 @@ body {
 					<button type="button" class="btn-close" data-bs-dismiss="alert"
 						aria-label="Close"></button>
 				</div>
-				
+
 				<button class="btn btn-primary mb-3" data-bs-toggle="modal"
 					data-bs-target="#productModal" onclick="clearProductModal()">
 					<i class="bi bi-plus-circle me-2"></i> Thêm Sản phẩm Mới
@@ -247,8 +244,30 @@ body {
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script>
-        function editProduct(button){document.getElementById('prodId').value=button.getAttribute('data-id');document.getElementById('prodName').value=button.getAttribute('data-name');document.getElementById('prodPrice').value=button.getAttribute('data-price');document.getElementById('prodStock').value=button.getAttribute('data-stock');document.getElementById('prodDescription').value=button.getAttribute('data-description');document.getElementById('prodCategory').value=button.getAttribute('data-category');document.getElementById('productModalLabel').innerText='Sửa Sản phẩm ID: '+button.getAttribute('data-id');var myModal=new bootstrap.Modal(document.getElementById('productModal'));myModal.show()}
-        function clearProductModal(){document.getElementById('productModalLabel').innerText='Thêm Sản phẩm Mới';document.querySelector('#productModal form').reset();document.getElementById('prodId').value=''}
-    </script>
+		function editProduct(button) {
+			document.getElementById('prodId').value = button
+					.getAttribute('data-id');
+			document.getElementById('prodName').value = button
+					.getAttribute('data-name');
+			document.getElementById('prodPrice').value = button
+					.getAttribute('data-price');
+			document.getElementById('prodStock').value = button
+					.getAttribute('data-stock');
+			document.getElementById('prodDescription').value = button
+					.getAttribute('data-description');
+			document.getElementById('prodCategory').value = button
+					.getAttribute('data-category');
+			document.getElementById('productModalLabel').innerText = 'Sửa Sản phẩm ID: '
+					+ button.getAttribute('data-id');
+			var myModal = new bootstrap.Modal(document
+					.getElementById('productModal'));
+			myModal.show()
+		}
+		function clearProductModal() {
+			document.getElementById('productModalLabel').innerText = 'Thêm Sản phẩm Mới';
+			document.querySelector('#productModal form').reset();
+			document.getElementById('prodId').value = ''
+		}
+	</script>
 </body>
 </html>
