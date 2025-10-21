@@ -1,0 +1,81 @@
+<div
+	th:replace="fragments/layout :: layout(content = ~{::content}, title=${product.name})">
+	<div th:fragment="content">
+		<div class="row">
+			<div class="col-md-6">
+				<img th:src="@{${product.imageUrl ?: 'placeholder.jpg'}}"
+					class="img-fluid rounded shadow-sm" alt="Product Image">
+
+				<h5 class="mt-4">Mô tả chi tiết:</h5>
+				<p th:text="${product.description}" class="text-muted"></p>
+			</div>
+
+			<div class="col-md-6">
+				<h1 th:text="${product.name}" class="display-5 mb-3">Tên Giày</h1>
+
+				<p class="text-muted text-uppercase mb-2"
+					th:text="'Category: ' + ${product.category?.categoryName ?: 'Chưa phân loại'}">
+					Category: Casual</p>
+
+				<h2 class="text-danger mb-4">
+					<span
+						th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' VND'}">1,500,000
+						VND</span>
+				</h2>
+
+				<div class="mb-4">
+					<span class="badge bg-success me-2">Tồn kho: <span
+						th:text="${product.stock}">10</span></span>
+				</div>
+
+				<form th:action="@{/cart/add}" method="post" class="mt-4">
+					<input type="hidden" name="productId"
+						th:value="${product.productId}">
+
+					<div class="row g-3 align-items-center mb-3">
+						<div class="col-auto">
+							<label for="size" class="col-form-label">Kích cỡ:</label>
+						</div>
+						<div class="col-auto">
+							<select class="form-select" id="size" name="size">
+								<option th:value="${product.size}" th:text="${product.size}"
+									selected>40</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row g-3 align-items-center mb-3">
+						<div class="col-auto">
+							<label for="color" class="col-form-label">Màu sắc:</label>
+						</div>
+						<div class="col-auto">
+							<select class="form-select" id="color" name="color">
+								<option value="Orange" selected>Cam</option>
+								<option value="Blue">Xanh Dương</option>
+								<option value="Gray">Xám</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row g-3 align-items-center mb-4">
+						<div class="col-auto">
+							<label for="quantity" class="col-form-label">Số lượng:</label>
+						</div>
+						<div class="col-auto">
+							<input type="number" id="quantity" name="quantity"
+								class="form-control" value="1" min="1" th:max="${product.stock}"
+								style="width: 80px;">
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary btn-lg w-100"
+						th:disabled="${product.stock == 0}">
+						<i class="fas fa-cart-plus me-2"></i> Thêm vào Giỏ hàng
+					</button>
+					<p th:if="${product.stock == 0}" class="text-danger mt-2">Sản
+						phẩm đã hết hàng!</p>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${user.userId == null} ? 'Thêm người dùng mới' : 'Chỉnh sửa người dùng'">Quản lý người dùng</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body { background-color: #f8f9fa; }
+        .sidebar {
+            position: fixed; top: 0; bottom: 0; left: 0;
+            width: 250px; background-color: #212529;
+            padding-top: 56px;
+        }
+        .sidebar .nav-link {
+            color: #adb5bd; padding: .75rem 1.5rem;
+            border-left: 3px solid transparent;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff; background-color: #495057;
+            border-left-color: #0d6efd;
+        }
+        .sidebar .nav-link .bi { margin-right: .75rem; }
+        .main-content {
+            margin-left: 250px; padding: 20px;
+            margin-top: 56px;
+        }
+    </style>
+</head>
+
+<body>
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" th:href="@{/admin/dashboard}">
+        <i class="bi bi-bag-check-fill me-2"></i>SHOE STORE
+    </a>
+</header>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/dashboard}"><i class="bi bi-speedometer2"></i>Báo cáo</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/products}"><i class="bi bi-box-seam"></i>Sản phẩm</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/orders}"><i class="bi bi-receipt"></i>Đơn hàng</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/categories}"><i class="bi bi-tags"></i>Danh mục</a></li>
+                    <li class="nav-item"><a class="nav-link active" th:href="@{/admin/users}"><i class="bi bi-people"></i>Người dùng</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/coupons}"><i class="bi bi-ticket-detailed"></i>Mã giảm giá</a></li>
+                </ul>
+                <div class="position-absolute bottom-0 w-100 p-3">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-outline-danger w-100">
+                            <i class="bi bi-box-arrow-right me-2"></i>Đăng xuất
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+            <div class="container mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 th:text="${user.userId == null} ? 'Thêm người dùng mới' : 'Chỉnh sửa người dùng'">Form người dùng</h2>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/users/save}" th:object="${user}" method="post" id="userForm">
+                            <input type="hidden" th:field="*{userId}"/>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="username">Tên đăng nhập</label>
+                                        <input type="text" class="form-control" id="username" th:field="*{username}"
+                                               th:readonly="${user.userId != null}" required>
+                                        <small th:if="${user.userId != null}" class="form-text text-muted">
+                                            Không thể thay đổi tên đăng nhập.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="fullName">Họ và Tên</label>
+                                        <input type="text" class="form-control" id="fullName" th:field="*{fullName}" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="phone">Số điện thoại</label>
+                                        <input type="text" class="form-control" id="phone" th:field="*{phone}">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div th:if="${user.userId == null}">
+                                 <div class="row">
+                                     <div class="col-md-6">
+                                         <div class="form-group mb-3">
+                                             <label for="password">Mật khẩu</label>
+                                             <input type="password" class="form-control" id="password" name="password" required>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-6">
+                                         <div class="form-group mb-3">
+                                             <label for="confirmPasswordAdd">Xác nhận mật khẩu</label>
+                                             <input type="password" class="form-control" id="confirmPasswordAdd" required>
+                                         </div>
+                                     </div>
+                                 </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="address">Địa chỉ</label>
+                                <input type="text" class="form-control" id="address" th:field="*{address}">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="role">Vai trò</label>
+                                <select class="form-control" id="role" th:field="*{role}">
+                                    <option value="user">User</option>
+                                    <option value="manager">Manager</option>
+                                    <option value="staff">Nhân viên</option>
+                                </select>
+                            </div>
+
+                            <div class="d-flex justify-content-end">
+                                <a th:href="@{/admin/users}" class="btn btn-secondary me-2">Hủy</a>
+                                <button type="submit" class="btn btn-primary">Lưu lại</button>
+                            </div>
+                        </form>
+
+                        <div th:if="${user.userId != null}" class="mt-5">
+                            <hr>
+                            <h4>Đặt lại mật khẩu</h4>
+                            <form th:action="@{/admin/users/reset-password}" method="post" id="resetPasswordForm" class="mt-3">
+                                <input type="hidden" name="userId" th:value="${user.userId}"/>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="newPassword">Mật khẩu mới</label>
+                                            <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="confirmPassword">Xác nhận mật khẩu</label>
+                                            <input type="password" class="form-control" id="confirmPassword" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-warning">Đặt lại mật khẩu</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Script cho form thêm mới người dùng
+                const userForm = document.getElementById('userForm');
+                if(userForm) {
+                    userForm.addEventListener('submit', function(event) {
+                        const passwordInput = document.getElementById('password');
+                        if (passwordInput) {
+                            const password = passwordInput.value;
+                            const confirmPassword = document.getElementById('confirmPasswordAdd').value;
+                            if (password !== confirmPassword) {
+                                alert('Mật khẩu xác nhận không khớp!');
+                                event.preventDefault();
+                            }
+                        }
+                    });
+                }
+
+                // Script cho form đặt lại mật khẩu
+                const resetPasswordForm = document.getElementById('resetPasswordForm');
+                if (resetPasswordForm) {
+                    resetPasswordForm.addEventListener('submit', function(event) {
+                        const newPassword = document.getElementById('newPassword').value;
+                        const confirmPassword = document.getElementById('confirmPassword').value;
+                        if (newPassword !== confirmPassword) {
+                            alert('Mật khẩu xác nhận không khớp!');
+                            event.preventDefault();
+                        }
+                    });
+                }
+            </script>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

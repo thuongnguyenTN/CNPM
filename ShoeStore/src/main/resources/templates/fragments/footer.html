@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Shoe Store</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;
+        }
+        footer {
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+
+    <!-- Đảm bảo có th:replace để Thymeleaf chèn nội dung thật -->
+    <main th:replace="${content}"></main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-4" th:fragment="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-md-start">
+                    <p>&copy; 2025 Shoe Store CNPM. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="small">Powered by Spring Boot & Thymeleaf</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

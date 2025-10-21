@@ -1,0 +1,87 @@
+<div th:replace="fragments/layout :: layout(content = ~{::content}, title='Hồ sơ của tôi')">
+<div th:fragment="content">
+    <div class="container rounded bg-white mt-5 mb-5 shadow-sm">
+        <form th:action="@{/user/profile/update}" th:object="${user}" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-3 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                        <img class="rounded-circle mt-5" width="150px" height="150px" style="object-fit: cover;"
+                             th:src="*{avatarUrl != null ? avatarUrl : '/images/avatars/default.png'}">
+                        <span class="font-weight-bold" th:text="*{username}"></span>
+                        <span class="text-black-50" th:text="*{email}"></span>
+                        <div class="mt-3">
+                            <label for="avatarFile" class="btn btn-outline-primary btn-sm">Chọn ảnh đại diện</label>
+                            <input type="file" id="avatarFile" name="avatarFile" class="d-none" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right">Hồ Sơ Của Tôi</h4>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6"><label class="labels">Họ và Tên</label><input type="text" class="form-control" th:field="*{fullName}" placeholder="Họ và tên"></div>
+                            <div class="col-md-6"><label class="labels">Tên Đăng Nhập</label><input type="text" class="form-control" th:value="*{username}" readonly></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12"><label class="labels">Số Điện Thoại</label><input type="text" class="form-control" th:field="*{phone}" placeholder="Số điện thoại"></div>
+                            <div class="col-md-12 mt-3"><label class="labels">Email</label><input type="email" class="form-control" th:field="*{email}" placeholder="Email"></div>
+                            <div class="col-md-12 mt-3"><label class="labels">Địa chỉ</label><input type="text" class="form-control" th:field="*{address}" placeholder="Địa chỉ"></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6"><label class="labels">Ngày Sinh</label><input type="date" name="dob" class="form-control" th:value="*{dateOfBirth != null ? #dates.format(dateOfBirth, 'yyyy-MM-dd') : ''}"></div>
+                            <div class="col-md-6"><label class="labels">Giới Tính</label>
+                                <select class="form-select" th:field="*{gender}">
+                                    <option value="">-- Chọn --</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-5 text-center">
+                            <button class="btn btn-primary profile-button" type="submit">Lưu Thay Đổi</button>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#passwordModal">
+                                Đổi Mật Khẩu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel">Đổi Mật Khẩu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/user/password/update}" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
+                            <input type="password" name="currentPassword" id="currentPassword" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">Mật khẩu mới</label>
+                            <input type="password" name="newPassword" id="newPassword" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Xác nhận mật khẩu mới</label>
+                            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

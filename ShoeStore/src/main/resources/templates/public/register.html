@@ -1,0 +1,31 @@
+<div th:replace="fragments/layout :: layout(content = ~{::content}, title='Đăng ký')">
+<div th:fragment="content" class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+            <h3 class="card-header text-center bg-primary text-white">Đăng ký Tài khoản</h3>
+            <div class="card-body">
+                <form th:action="@{/register}" method="post" th:object="${user}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" th:field="*{username}" class="form-control" id="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" th:field="*{email}" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input type="password" th:field="*{password}" class="form-control" id="password" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Đăng ký</button>
+                    </div>
+                </form>
+                <div class="text-center mt-3">
+                    <p>Đã có tài khoản? <a th:href="@{/login}">Đăng nhập ngay</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
